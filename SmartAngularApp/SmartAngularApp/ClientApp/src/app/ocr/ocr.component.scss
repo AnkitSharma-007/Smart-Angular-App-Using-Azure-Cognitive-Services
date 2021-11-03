@@ -1,0 +1,13 @@
+.preview-image {
+  max-height: 300px;
+  max-width: 300px;
+}
+
+.image-container {
+  display: flex;
+  padding: 15px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed skyblue;
+}

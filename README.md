@@ -1,4 +1,4 @@
-# Smart-Angular-App-Using-Azure-Cognitive-Services
+# Smart Angular App
 A smart Angular app created with the help of Azure Computer Vision Cognitive Services
 
 # Demo

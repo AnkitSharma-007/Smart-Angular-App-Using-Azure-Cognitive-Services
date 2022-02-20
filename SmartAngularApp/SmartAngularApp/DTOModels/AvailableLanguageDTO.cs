@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SmartAngularApp.DTOModels
+﻿namespace SmartAngularApp.DTOModels
 {
     public class AvailableLanguageDTO
     {
         public string LanguageID { get; set; }
         public string LanguageName { get; set; }
+
+        public AvailableLanguageDTO()
+        {
+            LanguageID = string.Empty;
+            LanguageName = string.Empty;
+        }
     }
 }

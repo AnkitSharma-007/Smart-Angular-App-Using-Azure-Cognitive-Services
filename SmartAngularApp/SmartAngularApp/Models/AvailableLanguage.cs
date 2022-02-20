@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace SmartAngularApp.Models
+﻿namespace SmartAngularApp.Models
 {
     public class AvailableLanguage
     {
-        public Dictionary<string, LanguageDetails> Translation { get; set; }
+        public Dictionary<string, LanguageDetails>? Translation { get; set; }
     }
 }

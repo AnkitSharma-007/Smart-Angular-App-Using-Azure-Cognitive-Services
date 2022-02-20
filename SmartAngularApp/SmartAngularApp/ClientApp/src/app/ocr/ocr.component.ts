@@ -8,10 +8,9 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-ocr',
   templateUrl: './ocr.component.html',
-  styleUrls: ['./ocr.component.scss']
+  styleUrls: ['./ocr.component.css'],
 })
 export class OcrComponent implements OnInit, OnDestroy {
-
   loading = false;
   imageFile: any;
   imagePreview: any;
@@ -26,17 +25,17 @@ export class OcrComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   constructor(private computervisionService: ComputervisionService) {
-    this.DefaultStatus = "Maximum size allowed for the image is 4 MB";
+    this.DefaultStatus = 'Maximum size allowed for the image is 4 MB';
     this.status = this.DefaultStatus;
     this.maxFileSize = 4 * 1024 * 1024; // 4MB
     this.ocrResult = new OcrResult();
   }
-
   ngOnInit() {
-    this.computervisionService.getAvailableLanguage()
+    this.computervisionService
+      .getAvailableLanguage()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((result: AvailableLanguage[]) =>
-        this.availableLanguage = result
+      .subscribe(
+        (result: AvailableLanguage[]) => (this.availableLanguage = result)
       );
   }
 
@@ -46,7 +45,7 @@ export class OcrComponent implements OnInit, OnDestroy {
       this.status = `The file size is ${this.imageFile.size} bytes, this is more than the allowed limit of ${this.maxFileSize} bytes.`;
       this.isValidFile = false;
     } else if (this.imageFile.type.indexOf('image') == -1) {
-      this.status = "Please upload a valid image file";
+      this.status = 'Please upload a valid image file';
       this.isValidFile = false;
     } else {
       const reader = new FileReader();
@@ -64,16 +63,19 @@ export class OcrComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.imageData.append('imageFile', this.imageFile);
 
-      this.computervisionService.getTextFromImage(this.imageData)
+      this.computervisionService
+        .getTextFromImage(this.imageData)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe((result: OcrResult) => {
           this.ocrResult = result;
-          const availableLanguageDetails = this.availableLanguage.find(x => x.languageID === this.ocrResult.language);
+          const availableLanguageDetails = this.availableLanguage.find(
+            (language) => language.languageID === this.ocrResult.language
+          );
 
           if (availableLanguageDetails) {
             this.DetectedTextLanguage = availableLanguageDetails.languageName;
           } else {
-            this.DetectedTextLanguage = "unknown";
+            this.DetectedTextLanguage = 'unknown';
           }
 
           this.loading = false;

@@ -5,10 +5,9 @@ import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ComputervisionService {
-
   baseURL: string;
 
   constructor(private http: HttpClient) {

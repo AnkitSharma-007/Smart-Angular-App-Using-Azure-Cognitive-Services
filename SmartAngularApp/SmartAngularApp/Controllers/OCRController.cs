@@ -4,12 +4,7 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Newtonsoft.Json;
 using SmartAngularApp.DTOModels;
 using SmartAngularApp.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartAngularApp.Controllers
 {
@@ -108,16 +103,20 @@ namespace SmartAngularApp.Controllers
 
             List<AvailableLanguageDTO> availableLanguage = new();
 
-            foreach (KeyValuePair<string, LanguageDetails> translation in deserializedOutput.Translation)
+            if (deserializedOutput.Translation is not null)
             {
-                AvailableLanguageDTO language = new()
+                foreach (KeyValuePair<string, LanguageDetails> translation in deserializedOutput.Translation)
                 {
-                    LanguageID = translation.Key,
-                    LanguageName = translation.Value.Name
-                };
+                    AvailableLanguageDTO language = new()
+                    {
+                        LanguageID = translation.Key,
+                        LanguageName = translation.Value.Name
+                    };
 
-                availableLanguage.Add(language);
+                    availableLanguage.Add(language);
+                }
             }
+
             return availableLanguage;
         }
     }

@@ -16,7 +16,7 @@ namespace SmartAngularApp.Controllers
         static string subscriptionKey;
         static string endpoint;
 
-        public OCRController()
+        static OCRController()
         {
             subscriptionKey = "6a3337f3c5a6461dbb75fa4016f53abc";
             endpoint = "https://azureocrdemo.cognitiveservices.azure.com/";

@@ -12,7 +12,7 @@ import { OcrComponent } from './ocr/ocr.component';
 @NgModule({
   declarations: [AppComponent, NavMenuComponent, HomeComponent, OcrComponent],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
@@ -20,7 +20,6 @@ import { OcrComponent } from './ocr/ocr.component';
       { path: 'computer-vision-ocr', component: OcrComponent },
     ]),
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

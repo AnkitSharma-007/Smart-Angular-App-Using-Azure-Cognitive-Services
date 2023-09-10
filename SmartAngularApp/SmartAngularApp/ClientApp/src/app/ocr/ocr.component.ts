@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ComputervisionService } from '../services/computervision.service';
-import { AvailableLanguage } from '../models/availablelanguage';
-import { OcrResult } from '../models/ocrresult';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { AvailableLanguage } from '../models/available-language';
+import { OcrResult } from '../models/ocr-result';
+import { ComputerVisionService } from '../services/computer-vision.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-ocr',
@@ -22,24 +21,27 @@ export class OcrComponent implements OnInit, OnDestroy {
   status: string;
   maxFileSize: number;
   isValidFile = true;
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new ReplaySubject<void>(1);
 
-  constructor(private computervisionService: ComputervisionService) {
+  constructor(private readonly computerVisionService: ComputerVisionService) {
     this.DefaultStatus = 'Maximum size allowed for the image is 4 MB';
     this.status = this.DefaultStatus;
     this.maxFileSize = 4 * 1024 * 1024; // 4MB
     this.ocrResult = new OcrResult();
   }
-  ngOnInit() {
-    this.computervisionService
+
+  ngOnInit(): void {
+    this.computerVisionService
       .getAvailableLanguage()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        (result: AvailableLanguage[]) => (this.availableLanguage = result)
-      );
+      .subscribe({
+        next: (result) => {
+          this.availableLanguage = result;
+        },
+      });
   }
 
-  uploadImage(event: any) {
+  uploadImage(event: any): void {
     this.imageFile = event.target.files[0];
     if (this.imageFile.size > this.maxFileSize) {
       this.status = `The file size is ${this.imageFile.size} bytes, this is more than the allowed limit of ${this.maxFileSize} bytes.`;
@@ -58,15 +60,15 @@ export class OcrComponent implements OnInit, OnDestroy {
     }
   }
 
-  GetText() {
+  getText(): void {
     if (this.isValidFile) {
       this.loading = true;
       this.imageData.append('imageFile', this.imageFile);
 
-      this.computervisionService
+      this.computerVisionService
         .getTextFromImage(this.imageData)
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((result: OcrResult) => {
+        .subscribe((result) => {
           this.ocrResult = result;
           const availableLanguageDetails = this.availableLanguage.find(
             (language) => language.languageID === this.ocrResult.language
@@ -83,7 +85,7 @@ export class OcrComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

@@ -6,7 +6,7 @@
 <div class="row">
   <div class="col-md-5">
     <textarea disabled class="form-control" rows="10" cols="15">{{
-      ocrResult?.detectedText
+      ocrResult.detectedText
     }}</textarea>
     <hr />
     <div class="row">
@@ -24,7 +24,9 @@
     </div>
   </div>
   <div class="col-md-5">
-    <div class="image-container">
+    <div
+      class="image-container d-flex align-items-center justify-content-center p-3"
+    >
       <img class="preview-image" src="{{ imagePreview }}" />
     </div>
     <input type="file" (change)="uploadImage($event)" />
@@ -33,7 +35,7 @@
     <button
       [disabled]="loading"
       class="btn btn-primary btn-lg"
-      (click)="GetText()"
+      (click)="getText()"
     >
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span
       >Extract Text

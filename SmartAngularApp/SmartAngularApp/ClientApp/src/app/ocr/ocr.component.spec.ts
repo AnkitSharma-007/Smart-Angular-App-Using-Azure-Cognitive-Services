@@ -6,14 +6,10 @@ describe('OcrComponent', () => {
   let component: OcrComponent;
   let fixture: ComponentFixture<OcrComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ OcrComponent ]
-    })
-    .compileComponents();
-  });
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [OcrComponent]
+    });
     fixture = TestBed.createComponent(OcrComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

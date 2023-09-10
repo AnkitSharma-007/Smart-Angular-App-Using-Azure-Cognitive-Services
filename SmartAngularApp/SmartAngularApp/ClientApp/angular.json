@@ -23,6 +23,9 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "oidc-client"
+            ],
             "assets": [
               "src/assets"
             ],
@@ -37,8 +40,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",

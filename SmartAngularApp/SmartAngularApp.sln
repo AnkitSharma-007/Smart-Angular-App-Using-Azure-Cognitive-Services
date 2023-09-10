@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAngularApp", "SmartAngularApp\SmartAngularApp.csproj", "{5385AD3C-4051-4589-8E0C-A8A2A0C36100}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAngularApp", "SmartAngularApp\SmartAngularApp.csproj", "{AC3AF476-6B37-4E88-AA96-2D3B8B4657A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5385AD3C-4051-4589-8E0C-A8A2A0C36100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5385AD3C-4051-4589-8E0C-A8A2A0C36100}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5385AD3C-4051-4589-8E0C-A8A2A0C36100}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5385AD3C-4051-4589-8E0C-A8A2A0C36100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC3AF476-6B37-4E88-AA96-2D3B8B4657A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC3AF476-6B37-4E88-AA96-2D3B8B4657A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC3AF476-6B37-4E88-AA96-2D3B8B4657A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC3AF476-6B37-4E88-AA96-2D3B8B4657A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FB0F1488-D5AF-4B41-83DF-731DD8CF17C6}
+		SolutionGuid = {2FB07D52-D8F6-42FD-A2AA-E41F1CF366FE}
 	EndGlobalSection
 EndGlobal

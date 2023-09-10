@@ -2,7 +2,7 @@
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Newtonsoft.Json;
-using SmartAngularApp.DTOModels;
+using SmartAngularApp.DTO;
 using SmartAngularApp.Models;
 using System.Text;
 
@@ -13,8 +13,8 @@ namespace SmartAngularApp.Controllers
     [ApiController]
     public class OCRController : ControllerBase
     {
-        static string subscriptionKey;
-        static string endpoint;
+        readonly static string subscriptionKey;
+        readonly static string endpoint;
 
         static OCRController()
         {
@@ -69,24 +69,6 @@ namespace SmartAngularApp.Controllers
             }
         }
 
-        static async Task<OcrResult> ReadTextFromStream(Stream imageData)
-        {
-            ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
-
-            OcrResult result = await client.RecognizePrintedTextInStreamAsync(true, imageData);
-
-            return result;
-        }
-
-        static ComputerVisionClient Authenticate(string endpoint, string key)
-        {
-            ComputerVisionClient client =
-                new ComputerVisionClient(new ApiKeyServiceClientCredentials(key))
-                { Endpoint = endpoint };
-
-            return client;
-        }
-
         [HttpGet]
         public async Task<List<AvailableLanguageDTO>> GetAvailableLanguages()
         {
@@ -118,6 +100,23 @@ namespace SmartAngularApp.Controllers
             }
 
             return availableLanguage;
+        }
+
+        static async Task<OcrResult> ReadTextFromStream(Stream imageData)
+        {
+            ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
+
+            OcrResult result = await client.RecognizePrintedTextInStreamAsync(true, imageData);
+
+            return result;
+        }
+
+        static ComputerVisionClient Authenticate(string endpoint, string key)
+        {
+            ComputerVisionClient client = new(new ApiKeyServiceClientCredentials(key))
+            { Endpoint = endpoint };
+
+            return client;
         }
     }
 }

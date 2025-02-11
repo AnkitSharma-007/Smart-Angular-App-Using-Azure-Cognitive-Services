@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using Newtonsoft.Json;
-using SmartAngularApp.DTO;
-using SmartAngularApp.Models;
+﻿using Azure;
+using Azure.AI.Vision.ImageAnalysis;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
 namespace SmartAngularApp.Controllers
@@ -18,15 +15,14 @@ namespace SmartAngularApp.Controllers
 
         static OCRController()
         {
-            subscriptionKey = "6a3337f3c5a6461dbb75fa4016f53abc";
-            endpoint = "https://azureocrdemo.cognitiveservices.azure.com/";
+            subscriptionKey = "2w4RpDiShQEnKvTCUlKsqQca3aoyViDAWTJxLVugCCAYiduyRJIjJQQJ99BBACGhslBXJ3w3AAAFACOGeV8C";
+            endpoint = "https://azureimageana.cognitiveservices.azure.com/";
         }
 
         [HttpPost, DisableRequestSizeLimit]
-        public async Task<OcrResultDTO> Post()
+        public string Post()
         {
             StringBuilder sb = new();
-            OcrResultDTO ocrResultDTO = new();
 
             try
             {
@@ -36,86 +32,50 @@ namespace SmartAngularApp.Controllers
 
                     if (file.Length > 0)
                     {
-                        OcrResult ocrResult = await ReadTextFromStream(file.OpenReadStream());
+                        ImageAnalysisResult ocrResult = ReadTextFromStream(file.OpenReadStream());
 
-                        if (ocrResult.Regions.Count > 0)
+                        if (ocrResult.Read.Blocks.Count > 0)
                         {
-                            foreach (OcrLine ocrLine in ocrResult.Regions[0].Lines)
+                            foreach (DetectedTextBlock block in ocrResult.Read.Blocks)
                             {
-                                foreach (OcrWord ocrWord in ocrLine.Words)
+                                foreach (DetectedTextLine line in block.Lines)
                                 {
-                                    sb.Append(ocrWord.Text);
-                                    sb.Append(' ');
+                                    sb.Append(line.Text);
+                                    sb.AppendLine();
                                 }
-                                sb.AppendLine();
                             }
                         }
                         else
                         {
-                            sb.Append("This language is not supported.");
+                            sb.Append("No Text Detected.");
                         }
-                        ocrResultDTO.DetectedText = sb.ToString();
-                        ocrResultDTO.Language = ocrResult.Language;
                     }
                 }
-                return ocrResultDTO;
+                return sb.ToString();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                ocrResultDTO.DetectedText = "Error occurred. Try again";
-                ocrResultDTO.Language = "unk";
-                return ocrResultDTO;
+                sb.Append("Error occurred. Try again.");
+                return sb.ToString();
             }
         }
 
-        [HttpGet]
-        public async Task<List<AvailableLanguageDTO>> GetAvailableLanguages()
+        static ImageAnalysisResult ReadTextFromStream(Stream imageData)
         {
-            string endpoint = "https://api.cognitive.microsofttranslator.com/languages?api-version=3.0&scope=translation";
+            ImageAnalysisClient client = Authenticate(endpoint, subscriptionKey);
 
-            var client = new HttpClient();
-            using var request = new HttpRequestMessage();
-            request.Method = HttpMethod.Get;
-            request.RequestUri = new Uri(endpoint);
-            var response = await client.SendAsync(request).ConfigureAwait(false);
-            string result = await response.Content.ReadAsStringAsync();
+            // Use the following code to analyze an image for a URL
+            // ImageAnalysisResult result = client.Analyze(new Uri("https://aka.ms/azsdk/image-analysis/sample.jpg"), VisualFeatures.Read);
 
-            AvailableLanguage deserializedOutput = JsonConvert.DeserializeObject<AvailableLanguage>(result);
-
-            List<AvailableLanguageDTO> availableLanguage = new();
-
-            if (deserializedOutput.Translation is not null)
-            {
-                foreach (KeyValuePair<string, LanguageDetails> translation in deserializedOutput.Translation)
-                {
-                    AvailableLanguageDTO language = new()
-                    {
-                        LanguageID = translation.Key,
-                        LanguageName = translation.Value.Name
-                    };
-
-                    availableLanguage.Add(language);
-                }
-            }
-
-            return availableLanguage;
-        }
-
-        static async Task<OcrResult> ReadTextFromStream(Stream imageData)
-        {
-            ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
-
-            OcrResult result = await client.RecognizePrintedTextInStreamAsync(true, imageData);
+            ImageAnalysisResult result = client.Analyze(BinaryData.FromStream(imageData), VisualFeatures.Read);
 
             return result;
         }
 
-        static ComputerVisionClient Authenticate(string endpoint, string key)
+        static ImageAnalysisClient Authenticate(string endpoint, string key)
         {
-            ComputerVisionClient client = new(new ApiKeyServiceClientCredentials(key))
-            { Endpoint = endpoint };
-
+            ImageAnalysisClient client = new(new Uri(endpoint), new AzureKeyCredential(key));
             return client;
         }
     }

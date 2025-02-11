@@ -1,6 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AvailableLanguage } from '../models/available-language';
-import { OcrResult } from '../models/ocr-result';
+import { Component, OnDestroy } from '@angular/core';
 import { ComputerVisionService } from '../services/computer-vision.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
@@ -9,14 +7,12 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   templateUrl: './ocr.component.html',
   styleUrls: ['./ocr.component.css'],
 })
-export class OcrComponent implements OnInit, OnDestroy {
+export class OcrComponent implements OnDestroy {
   loading = false;
   imageFile: any;
   imagePreview: any;
   imageData = new FormData();
-  availableLanguage: AvailableLanguage[] = [];
-  DetectedTextLanguage: string = '';
-  ocrResult: OcrResult;
+  ocrResult = '';
   DefaultStatus: string;
   status: string;
   maxFileSize: number;
@@ -27,18 +23,6 @@ export class OcrComponent implements OnInit, OnDestroy {
     this.DefaultStatus = 'Maximum size allowed for the image is 4 MB';
     this.status = this.DefaultStatus;
     this.maxFileSize = 4 * 1024 * 1024; // 4MB
-    this.ocrResult = new OcrResult();
-  }
-
-  ngOnInit(): void {
-    this.computerVisionService
-      .getAvailableLanguage()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (result) => {
-          this.availableLanguage = result;
-        },
-      });
   }
 
   uploadImage(event: any): void {
@@ -70,16 +54,6 @@ export class OcrComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe((result) => {
           this.ocrResult = result;
-          const availableLanguageDetails = this.availableLanguage.find(
-            (language) => language.languageID === this.ocrResult.language
-          );
-
-          if (availableLanguageDetails) {
-            this.DetectedTextLanguage = availableLanguageDetails.languageName;
-          } else {
-            this.DetectedTextLanguage = 'unknown';
-          }
-
           this.loading = false;
         });
     }

@@ -72,11 +72,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "SmartAngularApp:build:production"
+              "buildTarget": "SmartAngularApp:build:production"
             },
             "development": {
-              "browserTarget": "SmartAngularApp:build:development",
-              "proxyConfig": "proxy.conf.js"
+              "proxyConfig": "proxy.conf.js",
+              "buildTarget": "SmartAngularApp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "SmartAngularApp:build"
+            "buildTarget": "SmartAngularApp:build"
           }
         },
         "test": {

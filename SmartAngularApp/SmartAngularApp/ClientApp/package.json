@@ -24,8 +24,6 @@
     "@angular/platform-server": "^19.1.5",
     "@angular/router": "^19.1.5",
     "bootstrap": "^5.2.3",
-    "oidc-client": "^1.11.5",
-    "popper.js": "^1.16.0",
     "run-script-os": "^1.1.6",
     "rxjs": "~7.8.1",
     "tslib": "^2.5.0",

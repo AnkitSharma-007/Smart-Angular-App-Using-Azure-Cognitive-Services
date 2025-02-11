@@ -1,21 +1,24 @@
-<h2>
-  Optical Character Recognition (OCR) using Angular and Azure Computer Vision
-  Cognitive Services
+<h2 class="my-4">
+  Optical Character Recognition (OCR) using Angular and Azure AI Vision
 </h2>
 
 <div class="row">
-  <div class="col-md-5">
+  <div class="col-md-6">
     <textarea disabled class="form-control" rows="10" cols="15">{{
       ocrResult
     }}</textarea>
   </div>
-  <div class="col-md-5">
+  <div class="col-md-6">
     <div
       class="image-container d-flex align-items-center justify-content-center p-3"
     >
       <img class="preview-image" src="{{ imagePreview }}" />
     </div>
-    <input type="file" (change)="uploadImage($event)" />
+    <input
+      class="form-control mt-2"
+      type="file"
+      (change)="uploadImage($event)"
+    />
     <p>{{ status }}</p>
     <hr />
     <button
@@ -23,8 +26,9 @@
       class="btn btn-primary btn-lg"
       (click)="getText()"
     >
-      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span
-      >Extract Text
+      @if(loading){
+      <span class="spinner-border spinner-border-sm mr-1"></span>
+      } Extract Text
     </button>
   </div>
 </div>

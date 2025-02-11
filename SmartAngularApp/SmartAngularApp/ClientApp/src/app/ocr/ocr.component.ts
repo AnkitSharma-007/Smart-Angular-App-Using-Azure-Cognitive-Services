@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { ComputerVisionService } from '../services/computer-vision.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
@@ -8,22 +8,18 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   styleUrls: ['./ocr.component.css'],
 })
 export class OcrComponent implements OnDestroy {
+  private readonly computerVisionService = inject(ComputerVisionService);
+
   loading = false;
   imageFile: any;
   imagePreview: any;
   imageData = new FormData();
   ocrResult = '';
-  DefaultStatus: string;
-  status: string;
-  maxFileSize: number;
+  DefaultStatus = 'Maximum size allowed for the image is 4 MB';
+  status = '';
+  maxFileSize = 4 * 1024 * 1024; // 4MB;
   isValidFile = true;
   private unsubscribe$ = new ReplaySubject<void>(1);
-
-  constructor(private readonly computerVisionService: ComputerVisionService) {
-    this.DefaultStatus = 'Maximum size allowed for the image is 4 MB';
-    this.status = this.DefaultStatus;
-    this.maxFileSize = 4 * 1024 * 1024; // 4MB
-  }
 
   uploadImage(event: any): void {
     this.imageFile = event.target.files[0];

@@ -8,8 +8,8 @@ describe('OcrComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OcrComponent]
-    });
+    imports: [OcrComponent]
+});
     fixture = TestBed.createComponent(OcrComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

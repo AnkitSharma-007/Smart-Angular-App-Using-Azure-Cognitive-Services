@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ComputerVisionService {
-  baseURL = '/api/OCR';
-
-  constructor(private readonly http: HttpClient) {}
+  private readonly httpClient = inject(HttpClient);
+  private readonly baseURL = '/api/OCR';
 
   getTextFromImage(image: FormData) {
-    return this.http.post<string>(this.baseURL, image);
+    return this.httpClient.post<string>(this.baseURL, image);
   }
 }

@@ -65,7 +65,7 @@ namespace SmartAngularApp.Controllers
         {
             ImageAnalysisClient client = Authenticate(endpoint, subscriptionKey);
 
-            // Use the following code to analyze an image for a URL
+            // Use the following code to analyze an image from a URL
             // ImageAnalysisResult result = client.Analyze(new Uri("https://aka.ms/azsdk/image-analysis/sample.jpg"), VisualFeatures.Read);
 
             ImageAnalysisResult result = client.Analyze(BinaryData.FromStream(imageData), VisualFeatures.Read);

@@ -21,11 +21,7 @@
     />
     <p>{{ status }}</p>
     <hr />
-    <button
-      [disabled]="loading"
-      class="btn btn-primary btn-lg"
-      (click)="getText()"
-    >
+    <button [disabled]="loading" class="btn btn-primary" (click)="getText()">
       @if(loading){
       <span class="spinner-border spinner-border-sm mr-1"></span>
       } Extract Text

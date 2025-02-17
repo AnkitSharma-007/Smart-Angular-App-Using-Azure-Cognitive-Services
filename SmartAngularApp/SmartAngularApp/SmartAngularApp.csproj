@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.AI.Vision.ImageAnalysis" Version="1.0.0" />
+    <PackageReference Include="Azure.Identity" Version="1.13.2" />
+    <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.10" />
   </ItemGroup>
 

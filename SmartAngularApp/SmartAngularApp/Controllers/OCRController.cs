@@ -1,5 +1,7 @@
 ﻿using Azure;
 using Azure.AI.Vision.ImageAnalysis;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
@@ -15,8 +17,8 @@ namespace SmartAngularApp.Controllers
 
         static OCRController()
         {
-            subscriptionKey = "2w4RpDiShQEnKvTCUlKsqQca3aoyViDAWTJxLVugCCAYiduyRJIjJQQJ99BBACGhslBXJ3w3AAAFACOGeV8C";
-            endpoint = "https://azureimageana.cognitiveservices.azure.com/";
+            subscriptionKey = FetchAzureKeyVaultSecret("OCRKey").Value.Value;
+            endpoint = FetchAzureKeyVaultSecret("OCREndpoint").Value.Value;
         }
 
         [HttpPost, DisableRequestSizeLimit]
@@ -77,6 +79,13 @@ namespace SmartAngularApp.Controllers
         {
             ImageAnalysisClient client = new(new Uri(endpoint), new AzureKeyCredential(key));
             return client;
+        }
+
+        static Response<KeyVaultSecret> FetchAzureKeyVaultSecret(string keyName)
+        {
+            var kvUri = "Your Azure Key Vault URL";
+            var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+            return client.GetSecret(keyName);
         }
     }
 }
